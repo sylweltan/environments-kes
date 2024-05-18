@@ -67,6 +67,7 @@ jobs:
     steps:
       - name: Preview Distribution details
         run: | 
+          mkdir -p preview-details
           echo "Your are going to distribute 35 files" | tee -a preview-details/preview.txt
           echo "Total size of 35 files is 1.2GB" | tee -a preview-details/preview.txt
           
