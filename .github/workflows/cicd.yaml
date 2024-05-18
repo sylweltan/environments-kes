@@ -60,6 +60,22 @@ jobs:
         echo "DEPLOY_MESSAGE=I would have **updated** 2 server" >> $GITHUB_ENV
         echo "I am doing a fake noop deploy"
 
+  preview:
+    needs: [ build, staging ]
+    name: Preview Distribution details
+    runs-on: ubuntu-latest
+    steps:
+      - name: Preview Distribution details
+        run: | 
+          echo "Your are going to distribute 35 files" | tee -a preview-details/preview.txt
+          echo "Total size of 35 files is 1.2GB" | tee -a preview-details/preview.txt
+          
+      - name: Upload Preview Details
+        uses: actions/upload-artifact@v2
+        with:
+          name: preview-details
+          path: ${{ github.workspace }}/preview-details
+
   deploy:
     needs: [ build, staging ]
     name: Deploy to production
