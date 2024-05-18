@@ -46,7 +46,7 @@ jobs:
       id: deploy_staging
       run: | 
         echo "Deploy to staging"
-        echo "app_name: ${{ secrets.APP_NAME }}"
+        echo "app_name: ${{ env.APP_NAME }}"
         echo "app_secret: ${{ secrets.APP_SECRET }}"
 
   deploy:
@@ -65,5 +65,5 @@ jobs:
         id: deploy_production
         run: | 
           echo "Deploy to production"
-          echo "app_name: ${{ secrets.APP_NAME }}"
+          echo "app_name: ${{ env.APP_NAME }}"
           echo "app_secret: ${{ secrets.APP_SECRET }}"
