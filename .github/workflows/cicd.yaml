@@ -34,9 +34,9 @@ jobs:
   staging:
     needs: build
     name: Deploy to staging
-    #environment:
-    #  name: staging
-    #  #url: ${{ steps.deploy_staging.outputs.webapp-url }}
+    environment:
+      name: staging
+      url: ${{ steps.deploy_staging.outputs.webapp-url }}
     runs-on: ubuntu-latest
     steps:
     # Download artifacts
