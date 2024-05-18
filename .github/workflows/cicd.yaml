@@ -19,9 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup .Net Core SDK ${{ env.DOTNET_CORE_VERSION }}
-        #uses: actions/setup-dotnet@v1
-        #with:
-        #  dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
         run: echo "Setup .Net Core SDK ${{ env.DOTNET_CORE_VERSION }}"
       - name: Restore packages
         run: echo "dotnet restore"
@@ -31,12 +28,14 @@ jobs:
         run: echo "dotnet test"
       - name: dotnet publish
         run: echo "dotnet publish"
+
   staging:
     needs: build
     name: Deploy to staging
     environment:
       name: staging
-      url: ${{ steps.deploy_staging.outputs.webapp-url }}
+      #url: ${{ steps.deploy_staging.outputs.webapp-url }}
+      url: 'https://edge-staging.sylweltan.com'
     runs-on: ubuntu-latest
     steps:
     # Download artifacts
@@ -45,8 +44,26 @@ jobs:
     # Deploy
     - name: Deploy to staging
       id: deploy_staging
-      run: echo "Deploy to staging"
-  #deploy:
+      run: | 
+        echo "Deploy to staging"
+        echo "app_name: ${{ secrets.APP_NAME }}"
+        echo "app_secret: ${{ secrets.APP_SECRET }}"
 
-
-      
+  deploy:
+    needs: build
+    name: Deploy to production
+    environment:
+      name: production
+      url: 'https://edge.sylweltan.com'
+    runs-on: ubuntu-latest
+    steps:
+      # Download artifacts
+      - name: Download artifacts
+        run: "echo downlooad artifacts - actions/download-artifact@v2"
+      # Deploy
+      - name: Deploy to production
+        id: deploy_production
+        run: | 
+          echo "Deploy to production"
+          echo "app_name: ${{ secrets.APP_NAME }}"
+          echo "app_secret: ${{ secrets.APP_SECRET }}"
