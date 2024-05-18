@@ -77,7 +77,7 @@ jobs:
           path: ${{ github.workspace }}/preview-details
 
   deploy:
-    needs: [ build, staging ]
+    needs: [ build, staging, preview ]
     name: Deploy to production
     environment:
       name: production
