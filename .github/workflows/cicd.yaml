@@ -1,0 +1,52 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Manually trigger the workflow from the Actions tab
+    inputs:
+      dotnet-core-version:
+        description: 'DotNet Core SDK version'
+        required: true
+        default: '3.1'
+
+jobs:
+  build:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .Net Core SDK ${{ env.DOTNET_CORE_VERSION }}
+        #uses: actions/setup-dotnet@v1
+        #with:
+        #  dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+        run: echo "Setup .Net Core SDK ${{ env.DOTNET_CORE_VERSION }}"
+      - name: Restore packages
+        run: echo "dotnet restore"
+      - name: dotnet build
+        run: echo "dotnet build"
+      - name: dotnet test
+        run: echo "dotnet test"
+      - name: dotnet publish
+        run: echo "dotnet publish"
+  staging:
+    needs: build
+    name: Deploy to staging
+    #environment:
+    #  name: staging
+    #  #url: ${{ steps.deploy_staging.outputs.webapp-url }}
+    runs-on: ubuntu-latest
+    steps:
+    # Download artifacts
+    - name: Download artifacts
+      run: "echo downlooad artifacts - actions/download-artifact@v2"
+    # Deploy
+    - name: Deploy to staging
+      id: deploy_staging
+      run: echo "Deploy to staging"
+  #deploy:
+
+
+      
